@@ -1,0 +1,52 @@
+# PHP + NGINX Container #----------------------------------
+phpnginx:
+  image: phpnginx
+  container_name: phpnginx
+  ports:
+    - "80:80"
+  volumes:
+    - ./sites-enabled:/etc/nginx/sites-enabled
+    - ./www:/var/www
+    - ./logs/nginx:/var/log/nginx
+  links:
+    - mysql
+    - redis
+  privileged: true
+
+# MySQL Container #----------------------------------------
+mysql:
+  image: mysql
+  container_name: mysql
+  ports:
+    - "3306:3306"
+  volumes_from:
+    - data
+  environment:
+    MYSQL_DATABASE: ldock
+    MYSQL_USER: ldock
+    MYSQL_PASSWORD: ldock
+    MYSQL_ROOT_PASSWORD: ldock
+  privileged: true
+
+# Redis Container #----------------------------------------
+redis:
+  image: redis
+  container_name: redis
+  ports:
+    - "6379:6379"
+  volumes_from:
+    - data
+  volumes:
+    - ./logs/redis:/var/log/redis
+  restart: always
+  privileged: true
+
+# Data Volume Container #----------------------------------
+data:
+  image: data
+  container_name: data
+  volumes:
+    - /var/lib/mysql
+    - /var/lib/redis
+
+#----------------------------------------------------------
