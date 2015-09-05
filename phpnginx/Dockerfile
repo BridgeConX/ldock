@@ -33,7 +33,9 @@ RUN apt-get install -y --force-yes \
 	php5-imap \
 	php5-mcrypt \
 	php5-memcached \
-	php5-xdebug
+	php5-xdebug \
+	imagemagick \
+	php5-imagick
 
 # Make The MCrypt Extension Available
 
