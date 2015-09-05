@@ -1,6 +1,6 @@
 # PHP + NGINX Container #----------------------------------
 phpnginx:
-  image: phpnginx
+  image: bridgeconx/ldock-phpnginx:develop
   container_name: phpnginx
   ports:
     - "80:80"
@@ -15,7 +15,7 @@ phpnginx:
 
 # MySQL Container #----------------------------------------
 mysql:
-  image: mysql
+  image: bridgeconx/ldock-mysql:develop
   container_name: mysql
   ports:
     - "3306:3306"
@@ -30,7 +30,7 @@ mysql:
 
 # Redis Container #----------------------------------------
 redis:
-  image: redis
+  image: bridgeconx/ldock-redis:develop
   container_name: redis
   ports:
     - "6379:6379"
@@ -43,7 +43,7 @@ redis:
 
 # Data Volume Container #----------------------------------
 data:
-  image: data
+  image: bridgeconx/ldock-data:develop
   container_name: data
   volumes:
     - /var/lib/mysql
