@@ -10,7 +10,6 @@ CMD ["/sbin/my_init"]
 ENV DEBIAN_FRONTEND noninteractive
 
 # Add some repositories - staying up to date!
-
 RUN apt-add-repository ppa:ondrej/php5-5.6 -y \
 	&& apt-add-repository ppa:nginx/stable -y
 RUN apt-get update
@@ -83,6 +82,9 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* \
            /tmp/* \
            /var/tmp/*
+
+# Copy Files
+ADD files/etc /etc
 
 # Add nginx service
 RUN mkdir /etc/service/nginx
