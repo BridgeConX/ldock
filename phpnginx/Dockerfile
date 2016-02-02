@@ -15,8 +15,12 @@ RUN apt-add-repository ppa:ondrej/php5-5.6 -y \
 	&& apt-add-repository ppa:nginx/stable -y
 RUN apt-get update
 
-# Install Base PHP Packages
+# Install some CLI goodies
+RUN apt-get install -y --force-yes \
+    wget \
+	git
 
+# Install Base PHP Packages
 RUN apt-get install -y --force-yes \
 	php5-cli \
 	php5-dev \
@@ -38,17 +42,13 @@ RUN apt-get install -y --force-yes \
 	php5-imagick
 
 # Make The MCrypt Extension Available
-
-#RUN ln -sf /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
 RUN sudo php5enmod mcrypt
 
 # Install Composer Package Manager
-
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer
 
 # Misc. PHP CLI Configuration
-
 RUN sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
 RUN sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
 RUN sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
@@ -56,13 +56,11 @@ RUN sed -i "s/;date.timezone.*/date.timezone = America\/Chicago/" /etc/php5/cli/
 RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/cli/php.ini
 
 # Install Nginx & PHP-FPM
-
 RUN apt-get install -y --force-yes \
 	nginx \
 	php5-fpm
 
 # Tweak Some PHP-FPM Settings
-
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 RUN sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/fpm/php.ini
 RUN sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/fpm/php.ini
@@ -72,7 +70,6 @@ RUN sed -i "s/;date.timezone.*/date.timezone = America\/Chicago/" /etc/php5/fpm/
 RUN sed -i "s/\;session.save_path = .*/session.save_path = \"\/var\/lib\/php5\/sessions\"/" /etc/php5/fpm/php.ini
 
 # Configure Nginx
-
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 RUN sed -i "s/;request_terminate_timeout.*/request_terminate_timeout = 60/" /etc/php5/fpm/pool.d/www.conf
@@ -88,13 +85,11 @@ RUN apt-get clean && \
            /var/tmp/*
 
 # Add nginx service
-
 RUN mkdir /etc/service/nginx
 ADD build/nginx/run.sh /etc/service/nginx/run
 RUN chmod +x /etc/service/nginx/run
 
 # Add PHP service
-
 RUN mkdir /etc/service/phpfpm
 ADD build/php/run.sh /etc/service/phpfpm/run
 RUN chmod +x /etc/service/phpfpm/run
