@@ -13,8 +13,8 @@ if [ "$GITHUB_TOKEN" ]; then
 fi
 
 if [ "$ID_RSA" ]; then
-    echo "==> Found id_rsa, writing..."
-    echo "$ID_RSA" >> /root/.ssh/id_rsa
+    echo "==> Found id_rsa, pulling..."
+    wget "$ID_RSA" -O /root/.ssh/id_rsa
     chmod 600 /root/.ssh/id_rsa
 fi
 
