@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "==> Getting Host Keys for github.com and bitbucket.org"
+ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
+
 echo "==> Setting COMPOSER_HOME /root/.composer"
 export COMPOSER_HOME=/root/.composer
 
@@ -22,7 +26,7 @@ if [ "$GIT_URL" ]; then
 
     echo "==> Found git URL: $GIT_URL"
     echo "==> Cleaning /var/www"
-    rm -rf /var/www/* /var/www/.*
+    rm -rf /var/www/*
     echo "==> Cloning Application into /var/www"
     git clone $GIT_URL /var/www
 
@@ -40,5 +44,4 @@ if [ "$GIT_URL" ]; then
         echo "==> Running POST_INSTALL"
         sh -c "$POST_INSTALL"
     fi
-
 fi
