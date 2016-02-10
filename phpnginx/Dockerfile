@@ -54,6 +54,11 @@ RUN sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
 RUN sed -i "s/;date.timezone.*/date.timezone = America\/Chicago/" /etc/php5/cli/php.ini
 RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/cli/php.ini
 
+# Install Mongo Bindings - PHP Module is Loaded with the File Dump (see below)
+RUN echo "no" > _no
+RUN sudo pecl install mongo < _no
+RUN rm _no
+
 # Install Nginx & PHP-FPM
 RUN apt-get install -y --force-yes \
 	nginx \
