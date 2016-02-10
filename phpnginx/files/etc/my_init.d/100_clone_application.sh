@@ -12,6 +12,11 @@ if [ "$GITHUB_TOKEN" ]; then
     composer config -g github-oauth.github.com $GITHUB_TOKEN
 fi
 
+if [ "$TORAN_HOST" ]; then
+    echo "==> Adding auth for $TORAN_HOST";
+    composer config -g http-basic.$TORAN_HOST $TORAN_HTTP_USER $TORAN_HTTP_PASS
+fi
+
 if [ "$ID_RSA" ]; then
     echo "==> Found id_rsa, pulling..."
     wget "$ID_RSA" -O /root/.ssh/id_rsa
