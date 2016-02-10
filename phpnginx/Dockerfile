@@ -72,6 +72,7 @@ RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
 RUN sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/fpm/php.ini
 RUN sed -i "s/;date.timezone.*/date.timezone = America\/Chicago/" /etc/php5/fpm/php.ini
 RUN sed -i "s/\;session.save_path = .*/session.save_path = \"\/var\/lib\/php5\/sessions\"/" /etc/php5/fpm/php.ini
+RUN rm /etc/php5/cli/conf.d/20-xdebug.ini
 
 # Configure Nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
@@ -88,7 +89,7 @@ RUN apt-get clean && \
            /tmp/* \
            /var/tmp/*
 
-# Copy Files
+# == FILE DUMP == #
 ADD files/etc /etc
 
 # Add nginx service
