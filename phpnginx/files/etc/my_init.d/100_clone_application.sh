@@ -36,13 +36,15 @@ if [ "$GIT_URL" ]; then
     git clone $GIT_URL /var/www
 
     if [ "$COMPOSER_INSTALL" != "0" ]; then
+        echo "==> Clearing Composer Cache due to conflicts with the hirak/prestissimo package. See https://github.com/hirak/prestissimo/issues/45"
+        composer clear-cache
         echo "==> Running 'composer install --no-dev'"
         composer install --no-dev
     fi
 
     if [ "$STORAGE_WRITABLE" != "0" ]; then
         echo "==> Attempting to make storage directory writable"
-        chmod -R 777 storage
+        chown -R www-data:www-data storage
     fi
 
     if [ "$POST_INSTALL" ]; then

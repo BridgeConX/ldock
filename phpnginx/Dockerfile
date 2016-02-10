@@ -47,6 +47,9 @@ RUN sudo php5enmod mcrypt
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer
 
+# See https://github.com/hirak/prestissimo/issues/45
+# RUN composer global require hirak/prestissimo
+
 # Misc. PHP CLI Configuration
 RUN sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
 RUN sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
