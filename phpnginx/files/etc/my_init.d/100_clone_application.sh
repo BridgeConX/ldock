@@ -44,7 +44,7 @@ if [ "$GIT_URL" ]; then
 
     if [ "$STORAGE_WRITABLE" != "0" ]; then
         echo "==> Attempting to make storage directory writable"
-        chown -R www-data:www-data storage
+        chown -R www-data:www-data /var/www/storage
     fi
 
     if [ "$POST_INSTALL" ]; then
