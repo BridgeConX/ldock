@@ -30,6 +30,16 @@ Mount a data volume into `/var/www/public`, where nginx is directing PHP request
 sudo docker run -itd -v /path/on/host/laravel:/var/www bridgeconx/ldock-phpnginx
 ```
 
+### Running a Queue Worker
+
+This behavior is still very primitive, but you are able to run a queue worker (`php /var/www/artisan queue:listen`) in a separate container. Use the volumes from your main container. On boot, the container will wait for confirmation that Laravel has been installed (again, primitive), and then start your worker.
+
+```
+sudo docker run -itd -v /path/on/host/laravel:/var/www bridgeconx/ldock-phpnginx /bin/bash /root/schedule-run.sh
+```
+
+> I can't emphasize enough... PRIMITIVE! I would not consider this usable in production.
+
 ### Environment Variables
 
 #### **COMPOSER_HOME**
