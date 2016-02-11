@@ -67,6 +67,10 @@ Command to be executed after Composer dependencies are installed. Executed as `s
 
 Command to be executed before Composer dependencies are installed. Executed as `sh -c "$PRE_INSTALL"`.
 
+#### **SCHEDULE_ARTISAN_RUN**
+
+Set to a non-empty string to *disable* `php /var/www/artisan schedule:run` scheduling. This will effectively schedule the following cron: `* * * * * * php /var/www/artisan schedule:run`. Only applies when **GIT_URL** is defined.
+
 #### **STORAGE_WRITABLE**
 
 Set to a non-empty string to *disable* `chmod -R www-data:www-data /var/www/storage`. Only applies when **GIT_URL** is defined.

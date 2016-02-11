@@ -94,6 +94,7 @@ RUN apt-get clean && \
 
 # == FILE DUMP == #
 ADD files/etc /etc
+ADD files/root /root
 
 # Add nginx service
 RUN mkdir /etc/service/nginx

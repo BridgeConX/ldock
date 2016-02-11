@@ -47,6 +47,12 @@ if [ "$GIT_URL" ]; then
         chown -R www-data:www-data /var/www/storage
     fi
 
+    if [ "$SCHEDULE_ARTISAN_RUN" != "0" ]; then
+        echo "==> Scheduling cron job for artisan schedule:run"
+        crontab /root/crontab.txt
+        crontab -l
+    fi
+
     if [ "$POST_INSTALL" ]; then
         echo "==> Running POST_INSTALL"
         sh -c "$POST_INSTALL"
