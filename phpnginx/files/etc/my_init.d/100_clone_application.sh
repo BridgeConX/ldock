@@ -23,8 +23,8 @@ if [ "$ID_RSA" ]; then
     chmod 600 /root/.ssh/id_rsa
 fi
 
-if [ "$GIT_URL" ]; then
-    if [ "$PRE_INSTALL" ]; then
+if [ "$GIT_URL" -a ! -e /var/www/.ldock-installed ]; then
+    if [ -n "$PRE_INSTALL" ]; then
         echo "==> Running PRE_INSTALL"
         sh -c "$PRE_INSTALL"
     fi
@@ -35,19 +35,19 @@ if [ "$GIT_URL" ]; then
     echo "==> Cloning Application into /var/www"
     git clone $GIT_URL /var/www
 
-    if [ "$COMPOSER_INSTALL" != "0" ]; then
+    if [ -z "$COMPOSER_INSTALL" ]; then
         echo "==> Clearing Composer Cache due to conflicts with the hirak/prestissimo package. See https://github.com/hirak/prestissimo/issues/45"
         composer clear-cache
         echo "==> Running 'composer install --no-dev'"
         composer install --no-dev
     fi
 
-    if [ "$STORAGE_WRITABLE" != "0" ]; then
+    if [ -z "$STORAGE_WRITABLE" ]; then
         echo "==> Attempting to make storage directory writable"
         chown -R www-data:www-data /var/www/storage
     fi
 
-    if [ "$SCHEDULE_ARTISAN_RUN" != "0" ]; then
+    if [ -z "$SCHEDULE_ARTISAN_RUN" ]; then
         echo "==> Scheduling cron job for artisan schedule:run"
         crontab /root/crontab.txt
         crontab -l
@@ -57,4 +57,6 @@ if [ "$GIT_URL" ]; then
         echo "==> Running POST_INSTALL"
         sh -c "$POST_INSTALL"
     fi
+
+    date > /var/www/.ldock-installed
 fi
