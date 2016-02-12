@@ -87,6 +87,11 @@ RUN sed -i "s/sendfile on/sendfile off/" /etc/nginx/nginx.conf
 RUN mkdir -p /var/www
 RUN chown www-data:www-data -R /var/www
 
+# Installing NodeJS
+
+RUN curl -sL https://deb.nodesource.com/setup_5.x | bash -
+RUN apt-get install -y nodejs
+
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* \
            /tmp/* \
