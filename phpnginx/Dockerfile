@@ -98,6 +98,7 @@ RUN apt-get clean && \
            /var/tmp/*
 
 # == FILE DUMP == #
+ADD files/confd /confd
 ADD files/etc /etc
 ADD files/root /root
 
@@ -110,6 +111,11 @@ RUN chmod +x /etc/service/nginx/run
 RUN mkdir /etc/service/phpfpm
 ADD build/php/run.sh /etc/service/phpfpm/run
 RUN chmod +x /etc/service/phpfpm/run
+
+# Add  service
+RUN mkdir /etc/service/confd
+ADD build/confd/run.sh /etc/service/confd/run
+RUN chmod +x /etc/service/confd/run
 
 VOLUME ["/var/www", "/etc/nginx/sites-available", "/etc/nginx/sites-enabled"]
 

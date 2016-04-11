@@ -21,13 +21,17 @@ sudo docker run -itd bridgeconx/ldock-phpnginx
 Nginx is configured to listen on port 80. The `-p` flag is formatted `{port_on_host}:{port_in_container}`.
 
 ```
-sudo docker run -itd -p 80:80 bridgeconx/ldock-phpnginx
+sudo docker run -itd \
+    -p 80:80 \
+    bridgeconx/ldock-phpnginx
 ```
 
 Mount a data volume into `/var/www/public`, where nginx is directing PHP requests to.
 
 ```
-sudo docker run -itd -v /path/on/host/laravel:/var/www bridgeconx/ldock-phpnginx
+sudo docker run -itd \
+    -v /path/on/host/laravel:/var/www \
+    bridgeconx/ldock-phpnginx
 ```
 
 ### Running a Queue Worker
@@ -35,7 +39,10 @@ sudo docker run -itd -v /path/on/host/laravel:/var/www bridgeconx/ldock-phpnginx
 This behavior is still very primitive, but you are able to run a queue worker (`php /var/www/artisan queue:listen`) in a separate container. Use the volumes from your main container. On boot, the container will wait for confirmation that Laravel has been installed (again, primitive), and then start your worker.
 
 ```
-sudo docker run -itd -v /path/on/host/laravel:/var/www bridgeconx/ldock-phpnginx /bin/bash /root/schedule-run.sh
+sudo docker run -itd \
+    -v /path/on/host/laravel:/var/www \
+    bridgeconx/ldock-phpnginx \
+    /bin/bash /root/schedule-run.sh
 ```
 
 > I can't emphasize enough... PRIMITIVE! I would not consider this usable in production.
