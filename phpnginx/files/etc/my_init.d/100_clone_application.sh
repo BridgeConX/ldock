@@ -3,6 +3,7 @@
 echo "==> Getting Host Keys for github.com and bitbucket.org"
 ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
 ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
+ssh-keyscan -t rsa gitlab >> /root/.ssh/known_hosts
 
 echo "==> Setting COMPOSER_HOME /root/.composer"
 export COMPOSER_HOME=/root/.composer
