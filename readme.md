@@ -57,6 +57,10 @@ Sets the home directory for Composer. default: `/root/.composer`
 
 Set to a non-empty string to *disable* `composer install --no-dev`. Only applies when **GIT_URL** is defined.
 
+#### **CONFD_PREFIX**
+
+Set to the Consul prefix to run confd. You must link consul to the container for this to work. Any KV values under `/PREFIX/env` will populate the `.env` file.
+
 #### **GIT_URL**
 
 Full Git URL to a repository. If provided, this will trigger the following actions:
